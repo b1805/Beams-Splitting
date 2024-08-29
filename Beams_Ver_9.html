@@ -1,0 +1,186 @@
+<!-- MIT License
+
+Copyright (c) 2024 Bhavya Jain
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Beams</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<body onload="initialize()">
+  <div class="container">
+    <div class="dark-mode-pill-container">
+      <h1>Beams</h1>
+      <div class="dark-mode-pill"><label>Dark Mode</label>
+        <label class="switch" for="darkModeToggle">
+          <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()">
+          <span class="slider2 round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="flex-container">
+        <div class="flex-item">
+          <h2>
+            <input type="radio" name="version" id="triangle" checked onchange="toggleVersion()"> TRIANGLE GRID
+            <input type="radio" name="version" id="square" onchange="toggleVersion()"> SQUARE GRID
+          </h2>
+            <h2>Controls</h2>
+            <div>
+              <div id="triangleDiv">
+                <label for="triangleSideInput">Shape Base length
+                <select id="triangleSideInput">
+                    <option value="200">200</option>
+                    <option selected value="100">100</option>
+                    <option value="50">50</option>
+                    <option value="40">40</option>
+                    <option value="20">20</option>
+                    <option value="10">10</option>
+                    <option value="8">8</option>
+                </select>
+                <button onclick="changeNumberTriangles()">Apply</button></label>
+              </div>
+              <div>
+                <label> Start Angle: 0</label>
+                <label for="endAngleInput">End Angle (1 to 360)
+                <input type="number" id="endAngleInput" min="1" max="360" value="120">
+                <button onclick="changeEndAngle()">Apply</button></label>
+              </div>
+              <div>
+                <label for="numLightRaysInput">Light Rays in Beam
+                <input type="number" id="numLightRaysInput" min="1" max="36000" value="2000">
+                <button onclick="changeNumLightRays()">Apply</button></label>
+              </div>
+              <div>
+                <label for="epsInput">Epsilion Value
+                <input type="number" id="epsInput" min="0.00000001" max="10" value="0.1">
+                <button onclick="changeEps()">Apply</button></label>
+              </div>
+            </div>
+            <div>
+              <label for="showMouseCoordsCheckBox">Show Mouse Coords
+              <input type="checkbox" id="mouseVisibilityCheckBox" checked="true" onclick="changeMouseCoordsVisibility()"> </label>
+            </div>
+            <p> </p>
+            <div>
+                <label for="speedInput">Speed
+                  <input type="range" min="1" max="20" value="10" class="slider" id="speedInput">
+                  <span id="speedValue">10</span>
+                <button onclick="changeSpeed()">Apply</button></label>
+            </div>
+            <h2>Animation</h2>
+            <button id="startAnimButton" onclick="startAnimation()">Start Animation</button>
+            <button id="stopAnimButton" onclick="stopAnimation()">Stop Animation</button>
+            <h2>Magnification</h2>
+            <div>
+              <label><input type="radio" id="selectButton" name="zoomOption" value="Select" checked>Select
+              <input type="radio" id="magnifyButton" name="zoomOption" value="Magnify">Magnify
+              <input type="radio" id="demagnifyButton" name="zoomOption" value="Demagnify">Demagnify
+              <input type="radio" id="centerButton" name="zoomOption" value="Center">Center</label>
+            </div>
+            <p></p>
+            <div>
+              <label>Zoom Scale:
+              <input type="number" id="zoomInput" min="0.5" max="1000000.0" step="0.1" value="1.0">
+              <button id = "resetZoomDragButton" onclick="resetZoomDrag()">Reset Zoom & Drag</button></label>
+            </div>
+        </div>
+        <div class="flex-item">
+          <br/>
+          <canvas id="canvas" width="1000" height="800" style="border: 1px solid black;" ></canvas>
+          <div id="mouse_coords">
+              <span id="x_coord">Y</span>
+              <span id="y_coord">X</span>
+          </div>
+        </div>
+        <div class="flex-item">
+            <h2>Colours</h2>
+            <div>
+                <label for="wallColorInput">Wall Colour
+                <input type="color" id="wallColorInput" value="#0000FF"></label>
+            </div>
+            <div>
+                <label for="photonHeadColorInput">Beam Head Colour
+                <input type="color" id="photonHeadColorInput" value="#FF0000"></label>
+            </div>
+            <div>
+                <label for="photonTailColorInput">Beam Tail Colour
+                <input type="color" id="photonTailColorInput" value="#FFFF00"></label>
+            </div>
+            <div>
+                <label for="lightSourceColorInput">Beam Source Point Colour
+                <input type="color" id="lightSourceColorInput" value="#FF0000"></label>
+            </div>
+            <div>
+              <label for="triangleColorInput">Shape Fill Colour
+              <input type="color" id="triangleColorInput" value="#C9F29B"></label>
+            </div>
+            <div>
+              <label for="dragLineColorInput">Dragging Line Colour
+              <input type="color" id="dragLineColorInput" value="#FF0000"></label>
+            </div>
+              <p> </p>
+              <button onclick="applyColors()">Apply Colours</button>
+            <h2>Light Source Coordinates</h2>
+            <div>
+              <label for="lightSourceXInput">X: 
+              <input type="number" id="lightSourceXInput" min="1" max="1000" value="440"></label>
+            </div>
+            <div>
+              <label for="lightSourceYInput">Y: 
+              <input type="number" id="lightSourceYInput" min="1" max="1000" value="370"></label>
+            </div>
+            <p> </p>
+            <button onclick="changeLightSourceCoordinates()">Apply Coordinates</button>
+        </div>
+    </div>
+</div>
+</div>
+<div class="container">
+  <div class="flex-container">
+  <h2 id="recordingHeader">Recording</h2>
+  </div>
+  <div>
+    <button id="startRecButton" onclick="startRecording()">Start Recording</button>
+    <button id="stopRecButton" onclick="stopRecording()">Stop Recording</button>
+    <button id="startAllButton" onclick="startAnimationAndRecording()">Start Animation and Recording</button>
+  </div>
+  <div>
+    <p> </p>
+    <label id="status">Status: Recording not started</label>
+    <p> </p>
+    <label>Main Canvas</label>
+    <video id="recording" width="160" height="120" controls autoplay loop></video>
+    <p> </p>
+    <label>After the recording is complete:
+    <a id="downloadButton" href="#" download="Recording.webm">Download</a></label>
+  </div>
+</div>
+<script src="whammy.js"></script>
+<script src="globals.js"></script>
+<script src="classes.js"></script>
+<script src="script.js"></script>
+<script src="events.js"></script>
+</body>
+</html>
