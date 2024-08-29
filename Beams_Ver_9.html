@@ -24,13 +24,13 @@ SOFTWARE. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Beams</title>
+<title>Beams Splitting</title>
 </head>
 <link rel="stylesheet" href="style.css">
 <body onload="initialize()">
   <div class="container">
     <div class="dark-mode-pill-container">
-      <h1>Beams</h1>
+      <h1>Beams Splitting</h1>
       <div class="dark-mode-pill"><label>Dark Mode</label>
         <label class="switch" for="darkModeToggle">
           <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()">
@@ -66,16 +66,6 @@ SOFTWARE. -->
                 <label for="endAngleInput">End Angle (1 to 360)
                 <input type="number" id="endAngleInput" min="1" max="360" value="120">
                 <button onclick="changeEndAngle()">Apply</button></label>
-              </div>
-              <div>
-                <label for="numLightRaysInput">Light Rays in Beam
-                <input type="number" id="numLightRaysInput" min="1" max="36000" value="2000">
-                <button onclick="changeNumLightRays()">Apply</button></label>
-              </div>
-              <div>
-                <label for="epsInput">Epsilion Value
-                <input type="number" id="epsInput" min="0.00000001" max="10" value="0.1">
-                <button onclick="changeEps()">Apply</button></label>
               </div>
             </div>
             <div>
@@ -142,6 +132,17 @@ SOFTWARE. -->
             </div>
               <p> </p>
               <button onclick="applyColors()">Apply Colours</button>
+            <h2>Precision</h2>
+            <div>
+              <label for="numLightRaysInput">Light Rays in Beam
+              <input type="number" id="numLightRaysInput" min="1" max="36000" value="2000">
+              <button onclick="changeNumLightRays()">Apply</button></label>
+            </div>
+            <div>
+              <label for="epsInput">Epsilion Value
+              <input type="number" id="epsInput" min="0.00000001" max="10" value="0.1">
+              <button onclick="changeEps()">Apply</button></label>
+            </div>
             <h2>Light Source Coordinates</h2>
             <div>
               <label for="lightSourceXInput">X: 
